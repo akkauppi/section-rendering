@@ -20,6 +20,10 @@ Applications own what belongs in a section, its semantics, clipping rules, annot
 3. Add the optional Three.js adapter when both callers have a direct transformed-`BufferGeometry` conversion need.
 4. Consider a vector document and SVG serializer only after both rendering paths demonstrate matching primitive and viewport requirements.
 
+## Example Integration Proof
+
+The checked-in `examples/three-section-svg` workflow proves the intended integration without changing the package boundary. It converts one transformed `BufferGeometry` mesh at a time, declares a wall/slab interface pair explicitly, and writes a small SVG fixture from core output. Its Three.js conversion and SVG styling remain local example code until both consumers adopt the same contract.
+
 ## Boundaries And Verification
 
 - Do not add a single `renderSection(scene)` API: it would mix domain selection, cut generation, annotation, styling, and export policy.

@@ -16,3 +16,9 @@
 - Replaced the one-sided candidate scan with an active-set broad-phase sweep.
 - Tightened coplanar diagnostics to positive-area overlap only, avoiding false reports for triangles that merely touch.
 - Made interface IDs independent of output-array order and documented the numerical contract for consumers.
+
+## 2026-07-14: Three.js-to-SVG integration example
+
+- Added a Node-runnable abstract wall/slab/screen example that turns transformed Three.js triangles into core mesh input, plus an oblique source-scene preview and deterministic README SVGs.
+- Kept the Three.js conversion, mesh-feature selection, explicit interface relation, and SVG styling outside the public package API.
+- Added adapter-transform and fixture tests, plus CI checks that prevent the generated SVG from becoming stale.
