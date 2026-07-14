@@ -31,6 +31,19 @@ describe('visibility classification', () => {
     expect(fragments[1]).toMatchObject({ a: { u: 2, v: 5 }, b: { u: 8, v: 5 }, t0: 0.2, t1: 0.8 });
   });
 
+  it('ignores non-overlapping faces without changing exact visibility', () => {
+    const farFaces = Array.from({ length: 40 }, (_, index) => ({
+      id: `far-${index}`,
+      vertices: [{ u: 1000 + index * 20, v: 0, depth: 1 }, { u: 1010 + index * 20, v: 0, depth: 1 }, { u: 1010 + index * 20, v: 10, depth: 1 }, { u: 1000 + index * 20, v: 10, depth: 1 }]
+    }));
+    const fragments = classifyVisibility([{ id: 'far-edge', a: { u: 0, v: 5, depth: 2 }, b: { u: 10, v: 5, depth: 2 } }], [face, ...farFaces], { tolerances });
+    expect(fragments.map((fragment) => ({ visibility: fragment.visibility, a: fragment.a.u, b: fragment.b.u }))).toEqual([
+      { visibility: 'visible', a: 0, b: 2 },
+      { visibility: 'hidden', a: 2, b: 8 },
+      { visibility: 'visible', a: 8, b: 10 }
+    ]);
+  });
+
   it('keeps a coplanar boundary edge visible and supports caller occlusion policy', () => {
     const edge = { id: 'same-owner', ownerId: 'near', a: { u: 2, v: 0, depth: 1.01 }, b: { u: 8, v: 0, depth: 1.01 } };
     expect(classifyVisibility([edge], [face], { tolerances }).every((fragment) => fragment.visibility === 'visible')).toBe(true);
@@ -62,6 +75,14 @@ describe('visibility classification', () => {
       { edgeId: 'far', a: { u: 0, v: 0, depth: 2 }, b: { u: 10.0005, v: 0, depth: 2 }, t0: 0, t1: 1, visibility: 'hidden' as const }
     ], 0.001);
     expect(fragments.map((fragment) => fragment.edgeId)).toEqual(['near']);
+  });
+
+  it('does not suppress a hidden fragment when a visible bounding box only overlaps it', () => {
+    const fragments = suppressCoincidentHiddenFragments([
+      { edgeId: 'near-diagonal', a: { u: 0, v: 0, depth: 1 }, b: { u: 10, v: 10, depth: 1 }, t0: 0, t1: 1, visibility: 'visible' as const },
+      { edgeId: 'far-horizontal', a: { u: 2, v: 5, depth: 2 }, b: { u: 8, v: 5, depth: 2 }, t0: 0, t1: 1, visibility: 'hidden' as const }
+    ], tolerances.planar);
+    expect(fragments.map((fragment) => fragment.edgeId)).toEqual(['near-diagonal', 'far-horizontal']);
   });
 });
 

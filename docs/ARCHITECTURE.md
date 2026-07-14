@@ -8,6 +8,8 @@ The package does not own model semantics, cut-solid generation, terrain masking,
 
 Depth is relative to the section frame: smaller values are nearer to the viewer. Every visibility call requires planar and depth tolerances in the consumer's own unit system, so millimetre and metre models remain independent. Linear tolerances are always lengths; angular tolerances compare normalized directions; edge-parameter tolerances are unitless. This separation avoids numerical behaviour changing merely because the caller changes model scale.
 
+Visibility first rejects face/edge pairs whose projected, tolerance-expanded bounding boxes cannot meet. All retained candidates use the same exact boundary, polygon, and depth predicates as the unfiltered path, so this broad phase does not change fragment output.
+
 Interface candidate discovery uses an x-axis active-set sweep with y/z AABB rejection. Narrow-phase output is canonicalized and merged only when collinear segments touch within tolerance. Result IDs are derived from canonical source and endpoint data rather than iteration position.
 
 The v0.1 API intentionally replaces the prototype `x`/`z` API. No compatibility aliases are provided. Three.js, SVG, and DXF adapters are deferred until a consumer has a direct reusable adapter need.

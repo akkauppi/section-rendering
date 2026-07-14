@@ -1,5 +1,7 @@
 import type { ClassifyVisibilityOptions, OcclusionContext, SectionEdge, SectionFace, SectionPoint, VisibilityFragment, VisibilityTolerances } from './types.js';
 
+type Bounds2 = { minU: number; maxU: number; minV: number; maxV: number };
+
 /**
  * Splits every candidate edge at projected face boundaries, then classifies the
  * resulting intervals by comparing their midpoint depth with every covering face.
@@ -14,12 +16,18 @@ export function classifyVisibility<EdgeData, FaceData = EdgeData>(
   options: ClassifyVisibilityOptions<EdgeData, FaceData>
 ): VisibilityFragment<EdgeData>[] {
   const tolerances = validateTolerances(options.tolerances);
-  faces.forEach((face) => assertFace(face));
+  const preparedFaces = faces.map((face) => {
+    assertFace(face);
+    return { face, bounds: boundsForPoints(face.vertices) };
+  });
   return edges.flatMap((edge) => {
     assertEdge(edge);
+    // Bounding boxes are only a broad-phase rejection. Every remaining face is
+    // still tested with the exact intersection and depth predicates below.
+    const candidates = preparedFaces.filter((candidate) => boundsOverlap(boundsForPoints([edge.a, edge.b]), candidate.bounds, tolerances.planar));
     // Include the original endpoints so an edge with no face intersections
     // still produces exactly one fragment.
-    const parameters = uniqueSorted([0, 1, ...faces.flatMap((face) => faceIntersections(edge, face, tolerances))], tolerances.parameter);
+    const parameters = uniqueSorted([0, 1, ...candidates.flatMap(({ face }) => faceIntersections(edge, face, tolerances))], tolerances.parameter);
     return parameters.slice(1).flatMap((end, index) => {
       const start = parameters[index];
       if (end - start <= tolerances.parameter) return [];
@@ -28,7 +36,7 @@ export function classifyVisibility<EdgeData, FaceData = EdgeData>(
       // A midpoint is sufficient after boundary splitting. Depth varies linearly
       // on both the edge and a planar occluder face.
       const point = pointOnEdge(edge, (start + end) / 2);
-      const hidden = faces.some((face) => occludes(edge, face, point, options.shouldOcclude, tolerances));
+      const hidden = candidates.some(({ face }) => occludes(edge, face, point, options.shouldOcclude, tolerances));
       return [{ edgeId: edge.id, ownerId: edge.ownerId, data: edge.data, a, b, t0: start, t1: end, visibility: hidden ? 'hidden' : 'visible' }];
     });
   });
@@ -41,7 +49,12 @@ export function classifyVisibility<EdgeData, FaceData = EdgeData>(
  */
 export function suppressCoincidentHiddenFragments<T>(fragments: readonly VisibilityFragment<T>[], planarTolerance: number): VisibilityFragment<T>[] {
   if (!Number.isFinite(planarTolerance) || planarTolerance <= 0) throw new RangeError('planarTolerance must be a positive finite number.');
-  return fragments.filter((fragment) => fragment.visibility !== 'hidden' || !fragments.some((visible) => visible.visibility === 'visible' && segmentContains(visible.a, visible.b, fragment.a, planarTolerance) && segmentContains(visible.a, visible.b, fragment.b, planarTolerance)));
+  const visible = fragments
+    .filter((fragment) => fragment.visibility === 'visible')
+    .map((fragment) => ({ fragment, bounds: boundsForPoints([fragment.a, fragment.b]) }));
+  return fragments.filter((fragment) => fragment.visibility !== 'hidden' || !visible.some(({ fragment: covering, bounds }) => boundsContainSegment(bounds, fragment.a, fragment.b, planarTolerance)
+    && segmentContains(covering.a, covering.b, fragment.a, planarTolerance)
+    && segmentContains(covering.a, covering.b, fragment.b, planarTolerance)));
 }
 
 function occludes<EdgeData, FaceData>(edge: SectionEdge<EdgeData>, face: SectionFace<FaceData>, point: SectionPoint, shouldOcclude: ClassifyVisibilityOptions<EdgeData, FaceData>['shouldOcclude'], tolerances: Required<VisibilityTolerances>): boolean {
@@ -89,6 +102,24 @@ function pointOnEdge(edge: SectionEdge<unknown>, t: number): SectionPoint {
     v: edge.a.v + (edge.b.v - edge.a.v) * t,
     depth: edge.a.depth + (edge.b.depth - edge.a.depth) * t
   };
+}
+
+function boundsForPoints(points: readonly Pick<SectionPoint, 'u' | 'v'>[]): Bounds2 {
+  return points.reduce<Bounds2>((bounds, point) => ({
+    minU: Math.min(bounds.minU, point.u), maxU: Math.max(bounds.maxU, point.u),
+    minV: Math.min(bounds.minV, point.v), maxV: Math.max(bounds.maxV, point.v)
+  }), { minU: Number.POSITIVE_INFINITY, maxU: Number.NEGATIVE_INFINITY, minV: Number.POSITIVE_INFINITY, maxV: Number.NEGATIVE_INFINITY });
+}
+
+function boundsOverlap(a: Bounds2, b: Bounds2, tolerance: number): boolean {
+  return a.minU <= b.maxU + tolerance && a.maxU + tolerance >= b.minU
+    && a.minV <= b.maxV + tolerance && a.maxV + tolerance >= b.minV;
+}
+
+/** Necessary, but not sufficient, for a segment to lie on a covering segment. */
+function boundsContainSegment(bounds: Bounds2, a: Pick<SectionPoint, 'u' | 'v'>, b: Pick<SectionPoint, 'u' | 'v'>, tolerance: number): boolean {
+  return [a, b].every((point) => point.u >= bounds.minU - tolerance && point.u <= bounds.maxU + tolerance
+    && point.v >= bounds.minV - tolerance && point.v <= bounds.maxV + tolerance);
 }
 
 function segmentContains(a: SectionPoint, b: SectionPoint, point: SectionPoint, tolerance: number): boolean {
