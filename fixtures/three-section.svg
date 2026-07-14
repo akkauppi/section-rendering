@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 560" width="960" height="560" role="img" aria-labelledby="title description">
+<title id="title">Three.js to orthographic section linework</title>
+<desc id="description">An abstract wall and slab interface, with a foreground screen that creates dashed hidden lines.</desc>
+<style>.edge{stroke:#1f2937;stroke-width:1.8;fill:none;stroke-linecap:round}.edge.hidden{stroke:#8b96a5;stroke-dasharray:7 5}.interface{stroke:#0f766e;stroke-width:3.2;fill:none;stroke-linecap:round}.interface.hidden{stroke:#5f9e98;stroke-dasharray:8 5}.frame{fill:#fff;stroke:#d6dde6;stroke-width:1}.label{font-family:ui-sans-serif,system-ui,sans-serif;fill:#334155}.small{font-size:14px}.title{font-size:24px;font-weight:700}</style>
+<rect width="100%" height="100%" fill="#f8fafc"/>
+<text class="label title" x="70" y="46">Three.js → section linework → SVG</text>
+<text class="label small" x="70" y="70">Explicit wall/slab interface · orthographic projection · hidden lines retained</text>
+<rect class="frame" x="70" y="90" width="820" height="390" rx="8"/>
+<line class="edge visible" x1="232.38" y1="130.24" x2="232.38" y2="439.76"/>
+<line class="edge visible" x1="727.62" y1="130.24" x2="232.38" y2="130.24"/>
+<line class="edge visible" x1="232.38" y1="439.76" x2="727.62" y2="439.76"/>
+<line class="edge visible" x1="727.62" y1="439.76" x2="727.62" y2="130.24"/>
+<line class="edge visible" x1="294.29" y1="290.57" x2="294.29" y2="304.19"/>
+<line class="edge visible" x1="665.71" y1="290.57" x2="554.02" y2="290.57"/>
+<line class="edge hidden" x1="554.02" y1="290.57" x2="486.37" y2="290.57"/>
+<line class="edge hidden" x1="486.37" y1="290.57" x2="471.09" y2="290.57"/>
+<line class="edge hidden" x1="471.09" y1="290.57" x2="405.23" y2="290.57"/>
+<line class="edge visible" x1="405.23" y1="290.57" x2="294.29" y2="290.57"/>
+<line class="edge visible" x1="294.29" y1="304.19" x2="314.64" y2="304.19"/>
+<line class="edge hidden" x1="314.64" y1="304.19" x2="322.81" y2="304.19"/>
+<line class="edge visible" x1="322.81" y1="304.19" x2="405.98" y2="304.19"/>
+<line class="edge hidden" x1="405.98" y1="304.19" x2="449.3" y2="304.19"/>
+<line class="edge hidden" x1="449.3" y1="304.19" x2="473.63" y2="304.19"/>
+<line class="edge hidden" x1="473.63" y1="304.19" x2="554.77" y2="304.19"/>
+<line class="edge visible" x1="554.77" y1="304.19" x2="665.71" y2="304.19"/>
+<line class="edge visible" x1="665.71" y1="304.19" x2="665.71" y2="290.57"/>
+<line class="edge visible" x1="401.91" y1="230.38" x2="405.23" y2="290.57"/>
+<line class="edge visible" x1="405.23" y1="290.57" x2="405.75" y2="300.1"/>
+<line class="edge visible" x1="405.75" y1="300.1" x2="405.98" y2="304.19"/>
+<line class="edge visible" x1="405.98" y1="304.19" x2="406.39" y2="311.73"/>
+<line class="edge hidden" x1="406.39" y1="311.73" x2="407.26" y2="327.48"/>
+<line class="edge hidden" x1="407.26" y1="327.48" x2="407.42" y2="330.36"/>
+<line class="edge hidden" x1="407.42" y1="330.36" x2="407.43" y2="330.53"/>
+<line class="edge hidden" x1="407.43" y1="330.53" x2="407.84" y2="337.97"/>
+<line class="edge visible" x1="407.84" y1="337.97" x2="409.74" y2="372.55"/>
+<line class="edge visible" x1="550.26" y1="222.21" x2="401.91" y2="230.38"/>
+<line class="edge visible" x1="409.74" y1="372.55" x2="558.09" y2="364.38"/>
+<line class="edge visible" x1="558.09" y1="364.38" x2="557.56" y2="354.83"/>
+<line class="edge visible" x1="557.56" y1="354.83" x2="557.38" y2="351.46"/>
+<line class="edge hidden" x1="557.38" y1="351.46" x2="556.32" y2="332.37"/>
+<line class="edge hidden" x1="556.32" y1="332.37" x2="555.93" y2="325.23"/>
+<line class="edge visible" x1="555.93" y1="325.23" x2="554.77" y2="304.19"/>
+<line class="edge visible" x1="554.77" y1="304.19" x2="554.25" y2="294.66"/>
+<line class="edge visible" x1="554.25" y1="294.66" x2="554.02" y2="290.57"/>
+<line class="edge visible" x1="554.02" y1="290.57" x2="551.26" y2="240.46"/>
+<line class="edge visible" x1="551.26" y1="240.46" x2="550.26" y2="222.21"/>
+<line class="edge visible" x1="314.7" y1="303.46" x2="314.64" y2="304.19"/>
+<line class="edge visible" x1="314.64" y1="304.19" x2="314.06" y2="310.52"/>
+<line class="edge visible" x1="314.06" y1="310.52" x2="312.37" y2="329.35"/>
+<line class="edge visible" x1="647.63" y1="333.5" x2="555.93" y2="325.23"/>
+<line class="edge visible" x1="555.93" y1="325.23" x2="461.9" y2="316.74"/>
+<line class="edge visible" x1="461.9" y1="316.74" x2="433.34" y2="314.16"/>
+<line class="edge visible" x1="433.34" y1="314.16" x2="406.39" y2="311.73"/>
+<line class="edge visible" x1="406.39" y1="311.73" x2="322.81" y2="304.19"/>
+<line class="edge visible" x1="322.81" y1="304.19" x2="314.7" y2="303.46"/>
+<line class="edge visible" x1="312.37" y1="329.35" x2="396.84" y2="336.98"/>
+<line class="edge visible" x1="396.84" y1="336.98" x2="407.84" y2="337.97"/>
+<line class="edge visible" x1="407.84" y1="337.97" x2="439.4" y2="340.82"/>
+<line class="edge visible" x1="439.4" y1="340.82" x2="521.07" y2="348.19"/>
+<line class="edge visible" x1="521.07" y1="348.19" x2="557.38" y2="351.46"/>
+<line class="edge visible" x1="557.38" y1="351.46" x2="645.3" y2="359.4"/>
+<line class="edge visible" x1="645.3" y1="359.4" x2="647.63" y2="333.5"/>
+<line class="interface visible" x1="236.38" y1="296.38" x2="314.06" y2="310.52"/>
+<line class="interface hidden" x1="314.06" y1="310.52" x2="407.26" y2="327.48"/>
+<line class="interface hidden" x1="407.26" y1="327.48" x2="410.96" y2="328.15"/>
+<line class="interface hidden" x1="410.96" y1="328.15" x2="425.25" y2="330.75"/>
+<line class="interface hidden" x1="425.25" y1="330.75" x2="445.38" y2="334.42"/>
+<line class="interface hidden" x1="445.38" y1="334.42" x2="521.07" y2="348.19"/>
+<line class="interface hidden" x1="521.07" y1="348.19" x2="557.56" y2="354.83"/>
+<line class="interface visible" x1="557.56" y1="354.83" x2="723.62" y2="385.05"/>
+<line class="edge" x1="70" y1="520" x2="100" y2="520"/><text class="label small" x="110" y="525">visible edge</text>
+<line class="edge hidden" x1="250" y1="520" x2="280" y2="520"/><text class="label small" x="290" y="525">hidden edge</text>
+<line class="interface" x1="420" y1="520" x2="450" y2="520"/><text class="label small" x="460" y="525">declared interface</text>
+</svg>

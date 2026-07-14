@@ -4,9 +4,18 @@
   "description": "Dependency-free TypeScript primitives for section projection, surface interfaces, and hidden-line linework.",
   "license": "MIT",
   "private": true,
-  "keywords": ["geometry", "section", "projection", "hidden-line", "svg", "dxf"],
+  "keywords": [
+    "geometry",
+    "section",
+    "projection",
+    "hidden-line",
+    "svg",
+    "dxf"
+  ],
   "type": "module",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -16,14 +25,19 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc --noEmit -p tsconfig.json",
+    "typecheck:examples": "tsc --noEmit -p tsconfig.examples.json",
     "test": "vitest run",
     "test:watch": "vitest",
+    "render:three-section-demo": "tsx examples/three-section-svg/render.ts",
     "pack:check": "npm pack --dry-run"
   },
   "devDependencies": {
     "@types/node": "^22.10.2",
+    "@types/three": "^0.171.0",
+    "three": "^0.171.0",
+    "tsx": "^4.19.2",
     "typescript": "^5.7.2",
-    "vitest": "^2.1.8"
+    "vitest": "^4.1.10"
   },
   "engines": {
     "node": ">=20"
