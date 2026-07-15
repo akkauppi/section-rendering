@@ -22,3 +22,9 @@
 - Added a Node-runnable abstract wall/slab/screen example that turns transformed Three.js triangles into core mesh input, plus an oblique source-scene preview and deterministic README SVGs.
 - Kept the Three.js conversion, mesh-feature selection, explicit interface relation, and SVG styling outside the public package API.
 - Added adapter-transform and fixture tests, plus CI checks that prevent the generated SVG from becoming stale.
+
+## 2026-07-15: Git-consumable package build
+
+- Added a `prepare` lifecycle that compiles `dist` when the package is installed from an immutable Git commit.
+- Kept npm publication disabled; the initial consumers can pin reviewed Git commits while the pre-1.0 API continues to evolve.
+- Revalidated typechecking and the test suite before updating the EspooGML consumer.
